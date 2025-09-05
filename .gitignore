@@ -1,0 +1,19 @@
+# Python bytecode/cache
+__pycache__/
+*.py[cod]
+
+# Virtual environments
+.venv/
+
+# Packaging artifacts
+*.egg-info/
+app.egg-info/
+build/
+dist/
+.eggs/
+
+# Env/secrets
+.env
+
+# OS
+.DS_Store
