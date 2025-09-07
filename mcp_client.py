@@ -25,13 +25,16 @@ class MCPClient:
             args=self._args,
             env=self._env,
         )
+        # czyli defacto odpalamy tutaj server mcp i ustanawiamy STDIO transport
         stdio_transport = await self._exit_stack.enter_async_context(
             stdio_client(server_params)
         )
         _stdio, _write = stdio_transport
+        # ... a tu tworzymy session z serverem mcp, wykorzystując transport do komunikacji
         self._session = await self._exit_stack.enter_async_context(
             ClientSession(_stdio, _write)
         )
+        # ... ostatecznie tu inicjalizujemy session, handshake itp.
         await self._session.initialize()
 
     def session(self) -> ClientSession:
