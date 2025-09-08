@@ -31,7 +31,22 @@ def edit_doc(
     ):
     docs[doc_id] = docs[doc_id].replace(old_content, new_content)    
 
-# TODO: Write a resource to return all doc id's
+@mcp.resource(
+    uri="docs://documents",
+    description="Returns a list of document IDs.",
+    mime_type="application/json",
+)
+def list_docs_ids():
+    return list(docs.keys())
+
+@mcp.resource(
+    uri="docs://documents/{doc_id}",
+    description="Returns the contents of a document.",
+    mime_type="text/plain",
+)
+def get_doc_content(doc_id: str):
+    return docs[doc_id] 
+
 # TODO: Write a resource to return the contents of a particular doc
 # TODO: Write a prompt to rewrite a doc in markdown format
 # TODO: Write a prompt to summarize a doc
