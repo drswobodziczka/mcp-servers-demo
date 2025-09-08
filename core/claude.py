@@ -2,6 +2,7 @@ from anthropic import Anthropic
 from anthropic.types import Message
 
 
+# bezpośredni uchwyt / serwis do komunikacji z modelem. Taki Antropic Service
 class Claude:
     def __init__(self, model: str):
         self.client = Anthropic()

@@ -4,6 +4,15 @@ from core.tools import ToolManager
 from anthropic.types import MessageParam
 
 
+# Czyli to jest aplikacja Chata. W pętli wymieniamy sobie wiadomosci,
+# które które za każdym razem są przekazywane wraz z listą narzędzi do LLM-a.
+# Aplikacja Chata dostaje również listę MCP klientów. to ciekawe, że jest to
+# lista ale być może chodzi o to, że dla każdego z MCP serwerów używanych przez
+# aplikację potrzebujemy mieć osobnego klienta, który otwiera połączenie i
+# komunikuje się z serwerem.
+#
+# w szczególności jest to kawałek kodziaszku który nie jest osadzony w żadnym 
+# widoku To znaczy, że aplikacja consolowa powłoka jest gdzieś indziej.
 class Chat:
     def __init__(self, claude_service: Claude, clients: dict[str, MCPClient]):
         self.claude_service: Claude = claude_service

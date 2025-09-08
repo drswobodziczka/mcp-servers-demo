@@ -5,7 +5,15 @@ from mcp_client import MCPClient
 from anthropic.types import Message, ToolResultBlockParam
 
 
+# Klasa narzędzi. Orjestrator narzędzi ma takie fajne funkcjonalności jak: 
+# - zebranie wszystkich narzędzi, 
+# - odszukanie klienta i serwera udostępniającego tane narzędzie 
+# - funkcja pomocnicza, która zopakowuje wynik działania narzędzia w JSON 
+# - najgłówniejsza funkcja, która zajmuje się odpaleniem danego narzędzia, 
+# a czy tam wielu narzędzi biorąc słownik mapujące stringi na klientów.
 class ToolManager:
+
+    # Kluczowa metoda zbierająca wszystkie narzędzia dla wszystkich serwerów.
     @classmethod
     async def get_all_tools(cls, clients: dict[str, MCPClient]) -> list[Tool]:
         """Gets all tools from the provided clients."""
