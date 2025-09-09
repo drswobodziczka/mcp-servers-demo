@@ -22,9 +22,11 @@ class CliChat(Chat):
         return await self.doc_client.list_prompts()
 
     async def list_docs_ids(self) -> list[str]:
+        """Lists the IDs of all documents available on the MCP server, aaaand probably exposing to the CLI app!"""
         return await self.doc_client.read_resource("docs://documents")
 
     async def get_doc_content(self, doc_id: str) -> str:
+        """Retrieves the content of a document from the MCP server."""
         return await self.doc_client.read_resource(f"docs://documents/{doc_id}")
 
     async def get_prompt(
@@ -63,6 +65,7 @@ class CliChat(Chat):
         return True
 
     async def _process_query(self, query: str):
+        """Aha! Processes a user query either as a command or question with potentially extracted resources."""
         if await self._process_command(query):
             return
 
