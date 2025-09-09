@@ -1,7 +1,7 @@
 from mcp.server.fastmcp import FastMCP
 from pydantic import Field
-from mcp.server.base import base
-from mcp.server.messages import Message
+from mcp.server.fastmcp.prompts import base
+
 
 mcp = FastMCP("DocumentMCP", log_level="ERROR")
 
@@ -54,7 +54,7 @@ def get_doc_content(doc_id: str):
     name="format",
     description="Formats the contents of a document in markdown format and returns as a string.",
 )
-def rewrite_doc(doc_id: str = Field(description="The ID of the document to format.")) -> list[base:Message]: 
+def rewrite_doc(doc_id: str = Field(description="The ID of the document to format.")) -> list[base.Message]: 
     prompt = f"""
     
     You are expert in markdown formatting. 
