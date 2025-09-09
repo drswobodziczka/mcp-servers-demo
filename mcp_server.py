@@ -2,10 +2,10 @@ from mcp.server.fastmcp import FastMCP
 from pydantic import Field
 from mcp.server.fastmcp.prompts import base
 
-
+### MCP SERVER -- by FastMCP ###
 mcp = FastMCP("DocumentMCP", log_level="ERROR")
 
-
+### MCP internal database ###
 docs = {
     "deposition.md": "This deposition covers the testimony of Angela Smith, P.E.",
     "report.pdf": "The report details the state of a 20m condenser tower.",
@@ -15,6 +15,7 @@ docs = {
     "spec.txt": "These specifications define the technical requirements for the equipment.",
 }
 
+### MCP TOOLS ###
 @mcp.tool(
     name="read_document",
     description="Reads the contents of a document and returns as a string.",
@@ -33,6 +34,7 @@ def edit_doc(
     ):
     docs[doc_id] = docs[doc_id].replace(old_content, new_content)    
 
+### MCP RESOURCES ###
 @mcp.resource(
     uri="docs://documents",
     description="Returns a list of document IDs.",
@@ -49,7 +51,7 @@ def list_docs_ids():
 def get_doc_content(doc_id: str):
     return docs[doc_id] 
 
-# TODO: Write a prompt to rewrite a doc in markdown format
+### MCP PROMPTS ###
 @mcp.prompt(
     name="format",
     description="Formats the contents of a document in markdown format and returns as a string.",
@@ -57,9 +59,7 @@ def get_doc_content(doc_id: str):
 def rewrite_doc(doc_id: str = Field(description="The ID of the document to format.")) -> list[base.Message]: 
     prompt = f"""
     
-    You are expert in markdown formatting. 
-    
-    Your goal is to rewrite the document given by id in markdown format.
+    Your goal is to reformat the document into markdown.
     
     Id of document you need to reformat is: 
     
@@ -67,17 +67,17 @@ def rewrite_doc(doc_id: str = Field(description="The ID of the document to forma
     {doc_id}
     </document_id>
     
-    Add in headers, footers, tables, lists, bullet points, etc. to make it look like a real document.
+    NOTE: USE 'edit_document' tool to edit the document. 
+    NOTE: Do NOT change the text - just reformat it.
     
-    USE 'edit_document' tool to edit the document.
+    Return final result of the document to the user!
     
     """
     return  [ 
-             base.UserMessage(content=prompt) 
+             base.UserMessage(prompt) 
     ]
 
 # TODO: Write a prompt to summarize a doc
-
 
 if __name__ == "__main__":
     mcp.run(transport="stdio")
